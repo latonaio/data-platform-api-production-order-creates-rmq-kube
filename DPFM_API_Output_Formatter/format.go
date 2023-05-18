@@ -35,64 +35,64 @@ func ConvertToItemCreates(subfuncSDC *sub_func_complementer.SDC) (*[]Item, error
 	return &items, nil
 }
 
-func ConvertToComponentCreates(subfuncSDC *sub_func_complementer.SDC) (*[]Component, error) {
-	components := make([]Component, 0)
+func ConvertToItemComponentCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ItemComponent, error) {
+	itemComponents := make([]ItemComponent, 0)
 
-	for _, data := range *subfuncSDC.Message.Component {
-		component, err := TypeConverter[*Component](data)
+	for _, data := range *subfuncSDC.Message.ItemComponent {
+		itemComponent, err := TypeConverter[*ItemComponent](data)
 		if err != nil {
 			return nil, err
 		}
 
-		components = append(components, *component)
+		itemComponents = append(itemComponents, *itemComponent)
 	}
 
-	return &components, nil
+	return &itemComponents, nil
 }
 
-func ConvertToComponentStockConfirmationCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ComponentStockConfirmation, error) {
-	componentStockConfirmations := make([]ComponentStockConfirmation, 0)
+func ConvertToItemComponentStockConfirmationCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ItemComponentStockConfirmation, error) {
+	itemComponentStockConfirmations := make([]ItemComponentStockConfirmation, 0)
 
-	for _, data := range *subfuncSDC.Message.ComponentStockConfirmation {
-		componentStockConfirmation, err := TypeConverter[*ComponentStockConfirmation](data)
+	for _, data := range *subfuncSDC.Message.ItemComponentStockConfirmation {
+		itemComponentStockConfirmation, err := TypeConverter[*ItemComponentStockConfirmation](data)
 		if err != nil {
 			return nil, err
 		}
 
-		componentStockConfirmations = append(componentStockConfirmations, *componentStockConfirmation)
+		itemComponentStockConfirmations = append(itemComponentStockConfirmations, *itemComponentStockConfirmation)
 	}
 
-	return &componentStockConfirmations, nil
+	return &itemComponentStockConfirmations, nil
 }
 
-func ConvertToComponentCostingCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ComponentCosting, error) {
-	componentCostings := make([]ComponentCosting, 0)
+func ConvertToItemComponentCostingCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ItemComponentCosting, error) {
+	itemComponentCostings := make([]ItemComponentCosting, 0)
 
-	for _, data := range *subfuncSDC.Message.ComponentCosting {
-		componentCosting, err := TypeConverter[*ComponentCosting](data)
+	for _, data := range *subfuncSDC.Message.ItemComponentCosting {
+		itemComponentCosting, err := TypeConverter[*ItemComponentCosting](data)
 		if err != nil {
 			return nil, err
 		}
 
-		componentCostings = append(componentCostings, *componentCosting)
+		itemComponentCostings = append(itemComponentCostings, *itemComponentCosting)
 	}
 
-	return &componentCostings, nil
+	return &itemComponentCostings, nil
 }
 
-func ConvertToOperationCreates(subfuncSDC *sub_func_complementer.SDC) (*[]Operation, error) {
-	operationes := make([]Operation, 0)
+func ConvertToItemOperationsCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ItemOperations, error) {
+	itemOperations := make([]ItemOperations, 0)
 
-	for _, data := range *subfuncSDC.Message.Operation {
-		operation, err := TypeConverter[*Operation](data)
+	for _, data := range *subfuncSDC.Message.ItemOperations {
+		itemOperation, err := TypeConverter[*ItemOperations](data)
 		if err != nil {
 			return nil, err
 		}
 
-		operationes = append(operationes, *operation)
+		itemOperations = append(itemOperations, *itemOperation)
 	}
 
-	return &operationes, nil
+	return &itemOperations, nil
 }
 
 func ConvertToHeaderUpdates(headerData dpfm_api_input_reader.Header) (*Header, error) {
@@ -121,64 +121,64 @@ func ConvertToItemUpdates(itemUpdates *[]dpfm_api_processing_formatter.ItemUpdat
 	return &items, nil
 }
 
-func ConvertToComponentUpdates(componentUpdates *[]dpfm_api_processing_formatter.ComponentUpdates) (*[]Component, error) {
-	components := make([]Component, 0)
+func ConvertToItemComponentUpdates(itemComponentUpdates *[]dpfm_api_processing_formatter.ItemComponentUpdates) (*[]ItemComponent, error) {
+	itemComponents := make([]ItemComponent, 0)
 
-	for _, data := range *componentUpdates {
-		component, err := TypeConverter[*Component](data)
+	for _, data := range *itemComponentUpdates {
+		itemComponent, err := TypeConverter[*ItemComponent](data)
 		if err != nil {
 			return nil, err
 		}
 
-		components = append(components, *component)
+		itemComponents = append(itemComponents, *itemComponent)
 	}
 
-	return &components, nil
+	return &itemComponents, nil
 }
 
-func ConvertToComponentStockConfirmationUpdates(componentStockConfirmationUpdates *[]dpfm_api_processing_formatter.ComponentStockConfirmationUpdates) (*[]ComponentStockConfirmation, error) {
-	componentStockConfirmations := make([]ComponentStockConfirmation, 0)
+func ConvertToItemComponentStockConfirmationUpdates(itemComponentStockConfirmationUpdates *[]dpfm_api_processing_formatter.ItemComponentStockConfirmationUpdates) (*[]ItemComponentStockConfirmation, error) {
+	itemComponentStockConfirmations := make([]ItemComponentStockConfirmation, 0)
 
-	for _, data := range *componentStockConfirmationUpdates {
-		componentStockConfirmation, err := TypeConverter[*ComponentStockConfirmation](data)
+	for _, data := range *itemComponentStockConfirmationUpdates {
+		itemComponentStockConfirmation, err := TypeConverter[*ItemComponentStockConfirmation](data)
 		if err != nil {
 			return nil, err
 		}
 
-		componentStockConfirmations = append(componentStockConfirmations, *componentStockConfirmation)
+		itemComponentStockConfirmations = append(itemComponentStockConfirmations, *itemComponentStockConfirmation)
 	}
 
-	return &componentStockConfirmations, nil
+	return &itemComponentStockConfirmations, nil
 }
 
-func ConvertToComponentCostingUpdates(componentCostingUpdates *[]dpfm_api_processing_formatter.ComponentCostingUpdates) (*[]ComponentCosting, error) {
-	componentCostings := make([]ComponentCosting, 0)
+func ConvertToItemComponentCostingUpdates(itemComponentCostingUpdates *[]dpfm_api_processing_formatter.ItemComponentCostingUpdates) (*[]ItemComponentCosting, error) {
+	itemComponentCostings := make([]ItemComponentCosting, 0)
 
-	for _, data := range *componentCostingUpdates {
-		componentCosting, err := TypeConverter[*ComponentCosting](data)
+	for _, data := range *itemComponentCostingUpdates {
+		itemComponentCosting, err := TypeConverter[*ItemComponentCosting](data)
 		if err != nil {
 			return nil, err
 		}
 
-		componentCostings = append(componentCostings, *componentCosting)
+		itemComponentCostings = append(itemComponentCostings, *itemComponentCosting)
 	}
 
-	return &componentCostings, nil
+	return &itemComponentCostings, nil
 }
 
-func ConvertToOperationUpdates(operationUpdates *[]dpfm_api_processing_formatter.OperationUpdates) (*[]Operation, error) {
-	operationes := make([]Operation, 0)
+func ConvertToItemOperationsUpdates(itemOperationsUpdates *[]dpfm_api_processing_formatter.ItemOperationsUpdates) (*[]ItemOperations, error) {
+	itemOperations := make([]ItemOperations, 0)
 
-	for _, data := range *operationUpdates {
-		operation, err := TypeConverter[*Operation](data)
+	for _, data := range *itemOperationsUpdates {
+		itemoperation, err := TypeConverter[*ItemOperations](data)
 		if err != nil {
 			return nil, err
 		}
 
-		operationes = append(operationes, *operation)
+		itemOperations = append(itemOperations, *itemoperation)
 	}
 
-	return &operationes, nil
+	return &itemOperations, nil
 }
 
 func TypeConverter[T any](data interface{}) (T, error) {

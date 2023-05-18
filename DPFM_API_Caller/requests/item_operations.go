@@ -1,14 +1,13 @@
 package requests
 
-type Operation struct {
+type ItemOperations struct {
 	ProductionOrder                      int      `json:"ProductionOrder"`
 	ProductionOrderItem                  int      `json:"ProductionOrderItem"`
-	ProductionOrderSequence              string   `json:"ProductionOrderSequence"`
-	ProductionOrderOperation             string   `json:"ProductionOrderOperation"`
-	OrderInternalBillOfOperations        string   `json:"OrderInternalBillOfOperations"`
-	OrderIntBillOfOperationsItem         int      `json:"OrderIntBillOfOperationsItem"`
-	ProductionOrderSequenceText          *string  `json:"ProductionOrderSequenceText"`
-	ProductionOrderOperationText         *string  `json:"ProductionOrderOperationText"`
+	Operations                           int      `json:"Operations"`
+	OperationsItem                       int      `json:"OperationsItem"`
+	Sequence                             int      `json:"Sequence"`
+	OperationsText                       *string  `json:"OperationsText"`
+	SequenceText                         *string  `json:"SequenceText"`
 	OperationIsReleased                  *bool    `json:"OperationIsReleased"`
 	OperationIsPartiallyConfirmed        *bool    `json:"OperationIsPartiallyConfirmed"`
 	OperationIsConfirmed                 *bool    `json:"OperationIsConfirmed"`

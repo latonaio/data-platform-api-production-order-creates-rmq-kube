@@ -17,11 +17,6 @@ func (c *ExistenceConf) headerBPGeneralExistenceConf(mapper ExConfMapper, input 
 	headers = append(headers, input.Header)
 	for _, header := range headers {
 		bpID := getHeaderBPGeneralExistenceConfKey(mapper, &header, exconfErrMsg)
-		queueName, err := getQueueName(mapper)
-		if err != nil {
-			*errs = append(*errs, err)
-			return
-		}
 		wg2.Add(1)
 		exReqTimes++
 		go func() {
@@ -29,7 +24,7 @@ func (c *ExistenceConf) headerBPGeneralExistenceConf(mapper ExConfMapper, input 
 				wg2.Done()
 				return
 			}
-			res, err := c.bPGeneralExistenceConfRequest(bpID, queueName, input, existenceMap, mtx, log)
+			res, err := c.bPGeneralExistenceConfRequest(bpID, mapper, input, existenceMap, mtx, log)
 			if err != nil {
 				mtx.Lock()
 				*errs = append(*errs, err)
@@ -47,7 +42,40 @@ func (c *ExistenceConf) headerBPGeneralExistenceConf(mapper ExConfMapper, input 
 	}
 }
 
-func (c *ExistenceConf) bPGeneralExistenceConfRequest(bpID int, queueName string, input *dpfm_api_input_reader.SDC, existenceMap *[]bool, mtx *sync.Mutex, log *logger.Logger) (string, error) {
+func (c *ExistenceConf) itemBPGeneralExistenceConf(mapper ExConfMapper, input *dpfm_api_input_reader.SDC, existenceMap *[]bool, exconfErrMsg *string, errs *[]error, mtx *sync.Mutex, wg *sync.WaitGroup, log *logger.Logger) {
+	defer wg.Done()
+	wg2 := sync.WaitGroup{}
+	exReqTimes := 0
+
+	items := input.Header.Item
+	for _, item := range items {
+		bpID := getItemBPGeneralExistenceConfKey(mapper, &item, exconfErrMsg)
+		wg2.Add(1)
+		exReqTimes++
+		go func() {
+			if isZero(bpID) {
+				wg2.Done()
+				return
+			}
+			res, err := c.bPGeneralExistenceConfRequest(bpID, mapper, input, existenceMap, mtx, log)
+			if err != nil {
+				mtx.Lock()
+				*errs = append(*errs, err)
+				mtx.Unlock()
+			}
+			if res != "" {
+				*exconfErrMsg = res
+			}
+			wg2.Done()
+		}()
+	}
+	wg2.Wait()
+	if exReqTimes == 0 {
+		*existenceMap = append(*existenceMap, false)
+	}
+}
+
+func (c *ExistenceConf) bPGeneralExistenceConfRequest(bpID int, mapper ExConfMapper, input *dpfm_api_input_reader.SDC, existenceMap *[]bool, mtx *sync.Mutex, log *logger.Logger) (string, error) {
 	keys := newResult(map[string]interface{}{
 		"BusinessPartner": bpID,
 	})
@@ -64,7 +92,7 @@ func (c *ExistenceConf) bPGeneralExistenceConfRequest(bpID int, queueName string
 	}
 	req.BPGeneralReturn.BusinessPartner = bpID
 
-	exist, err = c.exconfRequest(req, queueName, log)
+	exist, err = c.exconfRequest(req, mapper, log)
 	if err != nil {
 		return "", err
 	}
@@ -79,7 +107,7 @@ func getHeaderBPGeneralExistenceConfKey(mapper ExConfMapper, header *dpfm_api_in
 	var bpID int
 
 	switch mapper.Field {
-	case "Buyer":
+	case "OwnerProductionPlantBusinessPartner":
 		if header.OwnerProductionPlantBusinessPartner == nil {
 			bpID = 0
 		} else {
@@ -87,5 +115,19 @@ func getHeaderBPGeneralExistenceConfKey(mapper ExConfMapper, header *dpfm_api_in
 		}
 	}
 
+	return bpID
+}
+
+func getItemBPGeneralExistenceConfKey(mapper ExConfMapper, item *dpfm_api_input_reader.Item, exconfErrMsg *string) int {
+	var bpID int
+
+	switch mapper.Field {
+	case "ProductionPlantBusinessPartner":
+		if item.ProductionPlantBusinessPartner == nil {
+			bpID = 0
+		} else {
+			bpID = *item.ProductionPlantBusinessPartner
+		}
+	}
 	return bpID
 }

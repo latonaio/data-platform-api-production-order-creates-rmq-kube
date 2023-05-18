@@ -150,6 +150,30 @@ func (c *DPFMAPICaller) subfuncProcess(
 			c.headerCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
 		case "Item":
 			c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+		case "ItemComponent":
+			if contains(accepter, "Item") {
+				subFuncFin <- nil
+			} else {
+				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+			}
+		case "ItemComponentStockConfirmation":
+			if contains(accepter, "Item") {
+				subFuncFin <- nil
+			} else {
+				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+			}
+		case "ItemComponentCosting":
+			if contains(accepter, "Item") {
+				subFuncFin <- nil
+			} else {
+				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+			}
+		case "ItemOperations":
+			if contains(accepter, "Item") {
+				subFuncFin <- nil
+			} else {
+				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+			}
 		default:
 			wg.Done()
 		}

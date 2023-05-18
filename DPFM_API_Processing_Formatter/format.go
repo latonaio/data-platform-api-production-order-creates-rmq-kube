@@ -22,7 +22,7 @@ func ConvertToHeaderUpdates(header dpfm_api_input_reader.Header) *HeaderUpdates 
 		ProductionOrderActualStartTime:   data.ProductionOrderActualStartTime,
 		ProductionOrderActualEndDate:     data.ProductionOrderActualEndDate,
 		ProductionOrderActualEndTime:     data.ProductionOrderActualEndTime,
-		TotalQuantity:                    data.TotalQuantity,
+		TotalQuantity:                    *data.TotalQuantity,
 		PlannedScrapQuantity:             data.PlannedScrapQuantity,
 		ConfirmedYieldQuantity:           data.ConfirmedYieldQuantity,
 		ProductionOrderHeaderText:        data.ProductionOrderHeaderText,
@@ -46,6 +46,11 @@ func ConvertToItemUpdates(itemUpdates dpfm_api_input_reader.Item) *ItemUpdates {
 		ProductionOrderItem:                   data.ProductionOrderItem,
 		ProductionOrderHasGeneratedOperations: data.ProductionOrderHasGeneratedOperations,
 		ProductAvailabilityIsNotChecked:       data.ProductAvailabilityIsNotChecked,
+		MinimumLotSizeQuantity:                data.MinimumLotSizeQuantity,
+		StandardLotSizeQuantity:               data.StandardLotSizeQuantity,
+		LotSizeRoundingQuantity:               data.LotSizeRoundingQuantity,
+		MaximumLotSizeQuantity:                data.MaximumLotSizeQuantity,
+		LotSizeIsFixed:                        data.LotSizeIsFixed,
 		ProductionOrderPlannedStartDate:       data.ProductionOrderPlannedStartDate,
 		ProductionOrderPlannedStartTime:       data.ProductionOrderPlannedStartTime,
 		ProductionOrderPlannedEndDate:         data.ProductionOrderPlannedEndDate,
@@ -56,27 +61,29 @@ func ConvertToItemUpdates(itemUpdates dpfm_api_input_reader.Item) *ItemUpdates {
 		ProductionOrderActualStartTime:        data.ProductionOrderActualStartTime,
 		ProductionOrderActualEndDate:          data.ProductionOrderActualEndDate,
 		ProductionOrderActualEndTime:          data.ProductionOrderActualEndTime,
-		TotalQuantity:                         data.TotalQuantity,
+		TotalQuantity:                         *data.TotalQuantity,
 		PlannedScrapQuantity:                  data.PlannedScrapQuantity,
 		ConfirmedYieldQuantity:                data.ConfirmedYieldQuantity,
 		ProductionOrderItemText:               data.ProductionOrderItemText,
 	}
 }
 
-func ConvertToComponentUpdates(componentUpdates dpfm_api_input_reader.Component) *ComponentUpdates {
-	data := componentUpdates
+func ConvertToItemComponentUpdates(itemComponentUpdates dpfm_api_input_reader.ItemComponent) *ItemComponentUpdates {
+	data := itemComponentUpdates
 
-	return &ComponentUpdates{
+	return &ItemComponentUpdates{
 		ProductionOrder:                      data.ProductionOrder,
 		ProductionOrderItem:                  data.ProductionOrderItem,
-		ProductionOrderSequence:              data.ProductionOrderSequence,
-		ProductionOrderOperation:             data.ProductionOrderOperation,
-		OrderInternalBillOfOperations:        data.OrderInternalBillOfOperations,
+		Operations:                           data.Operations,
+		OperationsItem:                       data.OperationsItem,
+		BillOfMaterial:                       data.BillOfMaterial,
+		BillOfMaterialItem:                   data.BillOfMaterialItem,
 		ComponentProductRequirementDate:      data.ComponentProductRequirementDate,
 		ComponentProductRequirementTime:      data.ComponentProductRequirementTime,
 		ComponentProductIsMarkedForBackflush: data.ComponentProductIsMarkedForBackflush,
+		ComponentProductBusinessPartner:      data.ComponentProductBusinessPartner,
+		StockConfirmationPlant:               data.StockConfirmationPlant,
 		SortField:                            data.SortField,
-		BillOfMaterial:                       data.BillOfMaterial,
 		BOMItemDescription:                   data.BOMItemDescription,
 		GoodsRecipientName:                   data.GoodsRecipientName,
 		UnloadingPointName:                   data.UnloadingPointName,
@@ -87,7 +94,6 @@ func ConvertToComponentUpdates(componentUpdates dpfm_api_input_reader.Component)
 		MovingAveragePrice:                   data.MovingAveragePrice,
 		ComponentScrapInPercent:              data.ComponentScrapInPercent,
 		OperationScrapInPercent:              data.OperationScrapInPercent,
-		BaseUnit:                             data.BaseUnit,
 		RequiredQuantity:                     data.RequiredQuantity,
 		WithdrawnQuantity:                    data.WithdrawnQuantity,
 		ConfirmedAvailableQuantity:           data.ConfirmedAvailableQuantity,
@@ -95,50 +101,43 @@ func ConvertToComponentUpdates(componentUpdates dpfm_api_input_reader.Component)
 	}
 }
 
-func ConvertToComponentStockConfirmationUpdates(componentStockConfirmationUpdates dpfm_api_input_reader.ComponentStockConfirmation) *ComponentStockConfirmationUpdates {
-	data := componentStockConfirmationUpdates
+func ConvertToItemComponentStockConfirmationUpdates(itemComponentStockConfirmationUpdates dpfm_api_input_reader.ItemComponentStockConfirmation) *ItemComponentStockConfirmationUpdates {
+	data := itemComponentStockConfirmationUpdates
 
-	return &ComponentStockConfirmationUpdates{
-		ProductionOrder:                 data.ProductionOrder,
-		ProductionOrderItem:             data.ProductionOrderItem,
-		ProductionOrderSequence:         data.ProductionOrderSequence,
-		ProductionOrderOperation:        data.ProductionOrderOperation,
-		OrderInternalBillOfOperations:   data.OrderInternalBillOfOperations,
-		ComponentProduct:                data.ComponentProduct,
-		ComponentProductRequirementDate: data.ComponentProductRequirementDate,
-		ComponentProductRequirementTime: data.ComponentProductRequirementTime,
-		IsMarkedForDeletion:             data.IsMarkedForDeletion,
+	return &ItemComponentStockConfirmationUpdates{
+		ProductionOrder:     data.ProductionOrder,
+		ProductionOrderItem: data.ProductionOrderItem,
+		Operations:          data.Operations,
+		OperationsItem:      data.OperationsItem,
+		BillOfMaterial:      data.BillOfMaterial,
+		BillOfMaterialItem:  data.BillOfMaterialItem,
+		IsMarkedForDeletion: data.IsMarkedForDeletion,
 	}
 }
 
-func ConvertToComponentCostingUpdates(componentCostingUpdates dpfm_api_input_reader.ComponentCosting) *ComponentCostingUpdates {
-	data := componentCostingUpdates
+func ConvertToItemComponentCostingUpdates(itemComponentCostingUpdates dpfm_api_input_reader.ItemComponentCosting) *ItemComponentCostingUpdates {
+	data := itemComponentCostingUpdates
 
-	return &ComponentCostingUpdates{
-		ProductionOrder:               data.ProductionOrder,
-		ProductionOrderItem:           data.ProductionOrderItem,
-		ProductionOrderSequence:       data.ProductionOrderSequence,
-		ProductionOrderOperation:      data.ProductionOrderOperation,
-		OrderInternalBillOfOperations: data.OrderInternalBillOfOperations,
-		ComponentProduct:              data.ComponentProduct,
-		CostingAmount:                 data.CostingAmount,
-		IsMarkedForDeletion:           data.IsMarkedForDeletion,
+	return &ItemComponentCostingUpdates{
+		ProductionOrder:     data.ProductionOrder,
+		ProductionOrderItem: data.ProductionOrderItem,
+		Operations:          data.Operations,
+		OperationsItem:      data.OperationsItem,
+		CostingAmount:       data.CostingAmount,
+		IsMarkedForDeletion: data.IsMarkedForDeletion,
 	}
 }
 
-func ConvertToOperationUpdates(operationUpdates dpfm_api_input_reader.Operation) *OperationUpdates {
-	data := operationUpdates
+func ConvertToItemOperationsUpdates(itemOperationsUpdates dpfm_api_input_reader.ItemOperations) *ItemOperationsUpdates {
+	data := itemOperationsUpdates
 
-	return &OperationUpdates{
+	return &ItemOperationsUpdates{
 		ProductionOrder:                      data.ProductionOrder,
 		ProductionOrderItem:                  data.ProductionOrderItem,
-		ProductionOrderSequence:              data.ProductionOrderSequence,
-		ProductionOrderOperation:             data.ProductionOrderOperation,
-		OrderInternalBillOfOperations:        data.OrderInternalBillOfOperations,
-		OrderIntBillOfOperationsItem:         data.OrderIntBillOfOperationsItem,
-		ProductionOrderSequenceText:          data.ProductionOrderSequenceText,
-		ProductionOrderOperationText:         data.ProductionOrderOperationText,
-		OperationIsReleased:                  data.OperationIsReleased,
+		Operations:                           data.Operations,
+		OperationsItem:                       data.OperationsItem,
+		OperationsText:                       data.OperationsText,
+		SequenceText:                         data.SequenceText,
 		OperationIsPartiallyConfirmed:        data.OperationIsPartiallyConfirmed,
 		OperationIsConfirmed:                 data.OperationIsConfirmed,
 		OperationIsClosed:                    data.OperationIsClosed,

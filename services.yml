@@ -23,7 +23,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: "RMQ_QUEUE_FROM"
-              value: "data-platform-api-production-order-creates-queue-from"
+              value: "data-platform-api-production-order-creates-queue"
             - name: "RMQ_QUEUE_TO_SQL"
               value: "sql-update-kube"
             - name: "RMQ_QUEUE_TO_EX_CONF"

@@ -58,23 +58,53 @@ func (c *ExistenceConf) Conf(data *dpfm_api_input_reader.SDC, ssdc *dpfm_api_out
 		}
 		switch tabletag {
 		case "ProductMasterGeneral":
-			wg.Add(1)
-			go c.headerProductExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			switch apiName {
+			case "Header":
+				wg.Add(1)
+				go c.headerProductExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			case "Item":
+				wg.Add(1)
+				go c.itemProductExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+				// case "ItemComponent":
+				// 	wg.Add(1)
+				// 	go c.itemComponentProductExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			}
 		case "BusinessPartnerGeneral":
-			wg.Add(1)
-			go c.headerBPGeneralExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			switch apiName {
+			case "Header":
+				wg.Add(1)
+				go c.headerBPGeneralExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+				// case "Item":
+				// 	wg.Add(1)
+				// 	go c.itemBPGeneralExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			}
 		case "PlantGeneral":
-			wg.Add(1)
-			go c.itemPlantGeneralExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
-		// case "Currency":
-		// 	wg.Add(1)
-		// 	go c.headerCurrencyExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
-		// case "Batch":
-		// 	wg.Add(1)
-		// 	go c.itemBatchExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			switch apiName {
+			case "Header":
+				wg.Add(1)
+				go c.headerPlantGeneralExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			case "Item":
+				wg.Add(1)
+				go c.itemPlantGeneralExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			}
+		// case "PlannedOrder":
+		// 	switch apiName {
+		// 	case "Header":
+		// 		wg.Add(1)
+		// 		go c.headerPlannedOrderExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+		// 	case "Item":
+		// 		wg.Add(1)
+		// 		go c.itemPlannedOrderExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+		// }
 		case "StorageLocation":
-			wg.Add(1)
-			go c.itemStorageLocationExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			switch apiName {
+			case "Header":
+				wg.Add(1)
+				go c.headerStorageLocationExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			case "Item":
+				wg.Add(1)
+				go c.itemStorageLocationExistenceConf(v, data, &existenceMap, &resMsg, &errs, mtx, &wg, l)
+			}
 		}
 	}
 
@@ -154,9 +184,12 @@ func jsonTypeConversion[T any](data interface{}) (T, error) {
 	}
 	return dist, nil
 }
-func confKeyExistence(res map[string]interface{}) bool {
+func confKeyExistence(res map[string]interface{}, tableTag string) bool {
 	if res == nil {
 		return false
+	}
+	if tableTag == "ProductMasterGeneral" {
+		return productMasterConfKeyExistence(res, tableTag)
 	}
 	raw, ok := res["ExistenceConf"]
 	exist := fmt.Sprintf("%v", raw)
@@ -166,13 +199,19 @@ func confKeyExistence(res map[string]interface{}) bool {
 
 	return false
 }
-func (c *ExistenceConf) exconfRequest(req interface{}, queueName string, log *logger.Logger) (bool, error) {
+func (c *ExistenceConf) exconfRequest(req interface{}, mapper ExConfMapper, log *logger.Logger) (bool, error) {
+	queueName, err := getQueueName(mapper)
+	if err != nil {
+		return false, err
+	}
+	tableTag := *mapper.Tabletag
+
 	res, err := c.rmq.SessionKeepRequest(nil, queueName, req)
 	if err != nil {
 		return false, xerrors.Errorf("response error: %w", err)
 	}
 	res.Success()
-	exist := confKeyExistence(res.Data())
+	exist := confKeyExistence(res.Data(), tableTag)
 	log.Info(res.Data())
 	return exist, nil
 }

@@ -1,23 +1,24 @@
 package requests
 
-type Component struct {
+type ItemComponent struct {
 	ProductionOrder                      int      `json:"ProductionOrder"`
 	ProductionOrderItem                  int      `json:"ProductionOrderItem"`
-	ProductionOrderSequence              string   `json:"ProductionOrderSequence"`
-	ProductionOrderOperation             string   `json:"ProductionOrderOperation"`
-	OrderInternalBillOfOperations        string   `json:"OrderInternalBillOfOperations"`
+	Operations                           int      `json:"Operations"`
+	OperationsItem                       int      `json:"OperationsItem"`
+	BillOfMaterial                       int      `json:"BillOfMaterial"`
+	BillOfMaterialItem                   int      `json:"BillOfMaterialItem"`
 	Reservation                          *int     `json:"Reservation"`
 	ReservationItem                      *int     `json:"ReservationItem"`
 	ComponentProduct                     *string  `json:"ComponentProduct"`
 	ComponentProductRequirementDate      *string  `json:"ComponentProductRequirementDate"`
 	ComponentProductRequirementTime      *string  `json:"ComponentProductRequirementTime"`
 	ComponentProductIsMarkedForBackflush *bool    `json:"ComponentProductIsMarkedForBackflush"`
+	ComponentProductBusinessPartner      *int     `json:"ComponentProductBusinessPartner"`
+	StockConfirmationPlant               *string  `json:"StockConfirmationPlant"`
 	PlannedOrder                         *int     `json:"PlannedOrder"`
 	OrderID                              *int     `json:"OrderID"`
 	OrderItem                            *int     `json:"OrderItem"`
 	SortField                            *string  `json:"SortField"`
-	BillOfMaterial                       *int     `json:"BillOfMaterial"`
-	BOMItem                              *int     `json:"BOMItem"`
 	BOMItemDescription                   *string  `json:"BOMItemDescription"`
 	StorageLocation                      *string  `json:"StorageLocation"`
 	Batch                                *string  `json:"Batch"`

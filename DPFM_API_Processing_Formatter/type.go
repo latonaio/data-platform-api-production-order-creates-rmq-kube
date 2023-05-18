@@ -17,15 +17,19 @@ type HeaderUpdates struct {
 	ProductionOrderActualStartTime   *string  `json:"ProductionOrderActualStartTime"`
 	ProductionOrderActualEndDate     *string  `json:"ProductionOrderActualEndDate"`
 	ProductionOrderActualEndTime     *string  `json:"ProductionOrderActualEndTime"`
-	TotalQuantity                    *float32 `json:"TotalQuantity"`
+	TotalQuantity                    float32  `json:"TotalQuantity"`
 	PlannedScrapQuantity             *float32 `json:"PlannedScrapQuantity"`
 	ConfirmedYieldQuantity           *float32 `json:"ConfirmedYieldQuantity"`
 	ProductionOrderHeaderText        *string  `json:"ProductionOrderHeaderText"`
 }
 
 type HeaderDocUpdates struct {
-	FileName *string `json:"FileName"`
-	FilePath *string `json:"FilePath"`
+	ProductionOrder int     `json:"ProductionOrder"`
+	DocType         string  `json:"DocType"`
+	DocVersionID    int     `json:"DocVersionID"`
+	DocID           string  `json:"DocID"`
+	FileName        *string `json:"FileName"`
+	FilePath        *string `json:"FilePath"`
 }
 
 type ItemUpdates struct {
@@ -33,6 +37,11 @@ type ItemUpdates struct {
 	ProductionOrderItem                   int      `json:"ProductionOrderItem"`
 	ProductionOrderHasGeneratedOperations *bool    `json:"ProductionOrderHasGeneratedOperations"`
 	ProductAvailabilityIsNotChecked       *bool    `json:"ProductAvailabilityIsNotChecked"`
+	MinimumLotSizeQuantity                *float32 `json:"MinimumLotSizeQuantity"`
+	StandardLotSizeQuantity               *float32 `json:"StandardLotSizeQuantity"`
+	LotSizeRoundingQuantity               *float32 `json:"LotSizeRoundingQuantity"`
+	MaximumLotSizeQuantity                *float32 `json:"MaximumLotSizeQuantity"`
+	LotSizeIsFixed                        *bool    `json:"LotSizeIsFixed"`
 	ProductionOrderPlannedStartDate       *string  `json:"ProductionOrderPlannedStartDate"`
 	ProductionOrderPlannedStartTime       *string  `json:"ProductionOrderPlannedStartTime"`
 	ProductionOrderPlannedEndDate         *string  `json:"ProductionOrderPlannedEndDate"`
@@ -43,23 +52,25 @@ type ItemUpdates struct {
 	ProductionOrderActualStartTime        *string  `json:"ProductionOrderActualStartTime"`
 	ProductionOrderActualEndDate          *string  `json:"ProductionOrderActualEndDate"`
 	ProductionOrderActualEndTime          *string  `json:"ProductionOrderActualEndTime"`
-	TotalQuantity                         *float32 `json:"TotalQuantity"`
+	TotalQuantity                         float32  `json:"TotalQuantity"`
 	PlannedScrapQuantity                  *float32 `json:"PlannedScrapQuantity"`
 	ConfirmedYieldQuantity                *float32 `json:"ConfirmedYieldQuantity"`
 	ProductionOrderItemText               *string  `json:"ProductionOrderItemText"`
 }
 
-type ComponentUpdates struct {
+type ItemComponentUpdates struct {
 	ProductionOrder                      int      `json:"ProductionOrder"`
 	ProductionOrderItem                  int      `json:"ProductionOrderItem"`
-	ProductionOrderSequence              string   `json:"ProductionOrderSequence"`
-	ProductionOrderOperation             string   `json:"ProductionOrderOperation"`
-	OrderInternalBillOfOperations        string   `json:"OrderInternalBillOfOperations"`
+	Operations                           int      `json:"Operations"`
+	OperationsItem                       int      `json:"OperationsItem"`
+	BillOfMaterial                       int      `json:"BillOfMaterial"`
+	BillOfMaterialItem                   int      `json:"BillOfMaterialItem"`
 	ComponentProductRequirementDate      *string  `json:"ComponentProductRequirementDate"`
 	ComponentProductRequirementTime      *string  `json:"ComponentProductRequirementTime"`
 	ComponentProductIsMarkedForBackflush *bool    `json:"ComponentProductIsMarkedForBackflush"`
+	ComponentProductBusinessPartner      *int     `json:"ComponentProductBusinessPartner"`
+	StockConfirmationPlant               *string  `json:"StockConfirmationPlant"`
 	SortField                            *string  `json:"SortField"`
-	BillOfMaterial                       *int     `json:"BillOfMaterial"`
 	BOMItemDescription                   *string  `json:"BOMItemDescription"`
 	GoodsRecipientName                   *string  `json:"GoodsRecipientName"`
 	UnloadingPointName                   *string  `json:"UnloadingPointName"`
@@ -70,46 +81,48 @@ type ComponentUpdates struct {
 	MovingAveragePrice                   *float32 `json:"MovingAveragePrice"`
 	ComponentScrapInPercent              *float32 `json:"ComponentScrapInPercent"`
 	OperationScrapInPercent              *float32 `json:"OperationScrapInPercent"`
-	BaseUnit                             *string  `json:"BaseUnit"`
 	RequiredQuantity                     *float32 `json:"RequiredQuantity"`
 	WithdrawnQuantity                    *float32 `json:"WithdrawnQuantity"`
 	ConfirmedAvailableQuantity           *float32 `json:"ConfirmedAvailableQuantity"`
 	IsMarkedForDeletion                  *bool    `json:"IsMarkedForDeletion"`
 }
 
-type ComponentStockConfirmationUpdates struct {
-	ProductionOrder                 int     `json:"ProductionOrder"`
-	ProductionOrderItem             int     `json:"ProductionOrderItem"`
-	ProductionOrderSequence         string  `json:"ProductionOrderSequence"`
-	ProductionOrderOperation        string  `json:"ProductionOrderOperation"`
-	OrderInternalBillOfOperations   string  `json:"OrderInternalBillOfOperations"`
-	ComponentProduct                string  `json:"ComponentProduct"`
-	ComponentProductRequirementDate *string `json:"ComponentProductRequirementDate"`
-	ComponentProductRequirementTime *string `json:"ComponentProductRequirementTime"`
-	IsMarkedForDeletion             *bool   `json:"IsMarkedForDeletion"`
+type ItemComponentStockConfirmationUpdates struct {
+	ProductionOrder     int   `json:"ProductionOrder"`
+	ProductionOrderItem int   `json:"ProductionOrderItem"`
+	Operations          int   `json:"Operations"`
+	OperationsItem      int   `json:"OperationsItem"`
+	BillOfMaterial      int   `json:"BillOfMaterial"`
+	BillOfMaterialItem  int   `json:"BillOfMaterialItem"`
+	IsMarkedForDeletion *bool `json:"IsMarkedForDeletion"`
 }
 
-type ComponentCostingUpdates struct {
-	ProductionOrder               int      `json:"ProductionOrder"`
-	ProductionOrderItem           int      `json:"ProductionOrderItem"`
-	ProductionOrderSequence       string   `json:"ProductionOrderSequence"`
-	ProductionOrderOperation      string   `json:"ProductionOrderOperation"`
-	OrderInternalBillOfOperations string   `json:"OrderInternalBillOfOperations"`
-	ComponentProduct              string   `json:"ComponentProduct"`
-	CostingAmount                 *float32 `json:"CostingAmount"`
-	IsMarkedForDeletion           *bool    `json:"IsMarkedForDeletion"`
+type ItemComponentCostingUpdates struct {
+	ProductionOrder     int      `json:"ProductionOrder"`
+	ProductionOrderItem int      `json:"ProductionOrderItem"`
+	Operations          int      `json:"Operations"`
+	OperationsItem      int      `json:"OperationsItem"`
+	CostingAmount       *float32 `json:"CostingAmount"`
+	IsMarkedForDeletion *bool    `json:"IsMarkedForDeletion"`
 }
 
-type OperationUpdates struct {
+type ItemDocUpdates struct {
+	ProductionOrder     int     `json:"ProductionOrder"`
+	ProductionOrderItem int     `json:"ProductionOrderItem"`
+	DocType             string  `json:"DocType"`
+	DocVersionID        int     `json:"DocVersionID"`
+	DocID               string  `json:"DocID"`
+	FileName            *string `json:"FileName"`
+	FilePath            *string `json:"FilePath"`
+}
+
+type ItemOperationsUpdates struct {
 	ProductionOrder                      int      `json:"ProductionOrder"`
 	ProductionOrderItem                  int      `json:"ProductionOrderItem"`
-	ProductionOrderSequence              string   `json:"ProductionOrderSequence"`
-	ProductionOrderOperation             string   `json:"ProductionOrderOperation"`
-	OrderInternalBillOfOperations        string   `json:"OrderInternalBillOfOperations"`
-	OrderIntBillOfOperationsItem         int      `json:"OrderIntBillOfOperationsItem"`
-	ProductionOrderSequenceText          *string  `json:"ProductionOrderSequenceText"`
-	ProductionOrderOperationText         *string  `json:"ProductionOrderOperationText"`
-	OperationIsReleased                  *bool    `json:"OperationIsReleased"`
+	Operations                           int      `json:"Operations"`
+	OperationsItem                       int      `json:"OperationsItem"`
+	OperationsText                       *string  `json:"OperationsText"`
+	SequenceText                         *string  `json:"SequenceText"`
 	OperationIsPartiallyConfirmed        *bool    `json:"OperationIsPartiallyConfirmed"`
 	OperationIsConfirmed                 *bool    `json:"OperationIsConfirmed"`
 	OperationIsClosed                    *bool    `json:"OperationIsClosed"`
