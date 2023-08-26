@@ -6,65 +6,55 @@ func ConvertToHeaderUpdates(header dpfm_api_input_reader.Header) *HeaderUpdates 
 	data := header
 
 	return &HeaderUpdates{
-		ProductionOrder:                  data.ProductionOrder,
-		HeaderIsReleased:                 data.HeaderIsReleased,
-		HeaderIsPartiallyConfirmed:       data.HeaderIsPartiallyConfirmed,
-		HeaderIsConfirmed:                data.HeaderIsConfirmed,
-		HeaderIsLocked:                   data.HeaderIsLocked,
-		HeaderIsMarkedForDeletion:        data.HeaderIsMarkedForDeletion,
-		ProductionOrderPlannedStartDate:  data.ProductionOrderPlannedStartDate,
-		ProductionOrderPlannedStartTime:  data.ProductionOrderPlannedStartTime,
-		ProductionOrderPlannedEndDate:    data.ProductionOrderPlannedEndDate,
-		ProductionOrderPlannedEndTime:    data.ProductionOrderPlannedEndTime,
-		ProductionOrderActualReleaseDate: data.ProductionOrderActualReleaseDate,
-		ProductionOrderActualReleaseTime: data.ProductionOrderActualReleaseTime,
-		ProductionOrderActualStartDate:   data.ProductionOrderActualStartDate,
-		ProductionOrderActualStartTime:   data.ProductionOrderActualStartTime,
-		ProductionOrderActualEndDate:     data.ProductionOrderActualEndDate,
-		ProductionOrderActualEndTime:     data.ProductionOrderActualEndTime,
-		TotalQuantity:                    *data.TotalQuantity,
-		PlannedScrapQuantity:             data.PlannedScrapQuantity,
-		ConfirmedYieldQuantity:           data.ConfirmedYieldQuantity,
-		ProductionOrderHeaderText:        data.ProductionOrderHeaderText,
+		ProductionOrder:									data.ProductionOrder,
+		OwnerProductionPlantStorageLocation:				data.OwnerProductionPlantStorageLocation,
+		DepartureDeliverFromPlantStorageLocation :			data.DepartureDeliverFromPlantStorageLocation ,
+		DestinationDeliverToPlantStorageLocation:			data.DestinationDeliverToPlantStorageLocation,
+		ProductBaseUnit:									data.ProductBaseUnit,
+		ProductionOrderQuantityInBaseUnit:					data.ProductionOrderQuantityInBaseUnit,
+		ProductionOrderQuantityInDepartureProductionUnit:	data.ProductionOrderQuantityInDepartureProductionUnit,
+		ProductionOrderQuantityInDestinationProductionUnit:	data.ProductionOrderQuantityInDestinationProductionUnit,
+		ProductionOrderQuantityInDepartureDeliveryUnit:		data.ProductionOrderQuantityInDepartureDeliveryUnit,
+		ProductionOrderQuantityInDestinationDeliveryUnit:	data.ProductionOrderQuantityInDestinationDeliveryUnit,
+		ProductionOrderPlannedScrapQtyInBaseUnit:			data.ProductionOrderPlannedScrapQtyInBaseUnit,
+		ProductionOrderPlannedStartDate:					data.ProductionOrderPlannedStartDate,
+		ProductionOrderPlannedStartTime:					data.ProductionOrderPlannedStartTime,
+		ProductionOrderPlannedEndDate:						data.ProductionOrderPlannedEndDate,
+		ProductionOrderPlannedEndTime:						data.ProductionOrderPlannedEndTime,
+		ProductionOrderActualStartDate:						data.ProductionOrderActualStartDate,
+		ProductionOrderActualStartTime:						data.ProductionOrderActualStartTime,
+		ProductionOrderActualEndDate:						data.ProductionOrderActualEndDate,
+		ProductionOrderActualEndTime:						data.ProductionOrderActualEndTime,
+		ProductionOrderHeaderText:							data.ProductionOrderHeaderText,
+		IsLocked:											data.IsLocked,
 	}
-}
+}	
 
-func ConvertToHeaderDocUpdates(headerDocUpdates dpfm_api_input_reader.HeaderDoc) *HeaderDocUpdates {
-	data := headerDocUpdates
-
-	return &HeaderDocUpdates{
-		FileName: data.FileName,
-		FilePath: data.FilePath,
-	}
-}
 
 func ConvertToItemUpdates(itemUpdates dpfm_api_input_reader.Item) *ItemUpdates {
 	data := itemUpdates
 
 	return &ItemUpdates{
-		ProductionOrder:                       data.ProductionOrder,
-		ProductionOrderItem:                   data.ProductionOrderItem,
-		ProductionOrderHasGeneratedOperations: data.ProductionOrderHasGeneratedOperations,
-		ProductAvailabilityIsNotChecked:       data.ProductAvailabilityIsNotChecked,
-		MinimumLotSizeQuantity:                data.MinimumLotSizeQuantity,
-		StandardLotSizeQuantity:               data.StandardLotSizeQuantity,
-		LotSizeRoundingQuantity:               data.LotSizeRoundingQuantity,
-		MaximumLotSizeQuantity:                data.MaximumLotSizeQuantity,
-		LotSizeIsFixed:                        data.LotSizeIsFixed,
-		ProductionOrderPlannedStartDate:       data.ProductionOrderPlannedStartDate,
-		ProductionOrderPlannedStartTime:       data.ProductionOrderPlannedStartTime,
-		ProductionOrderPlannedEndDate:         data.ProductionOrderPlannedEndDate,
-		ProductionOrderPlannedEndTime:         data.ProductionOrderPlannedEndTime,
-		ProductionOrderActualReleaseDate:      data.ProductionOrderActualReleaseDate,
-		ProductionOrderActualReleaseTime:      data.ProductionOrderActualReleaseTime,
-		ProductionOrderActualStartDate:        data.ProductionOrderActualStartDate,
-		ProductionOrderActualStartTime:        data.ProductionOrderActualStartTime,
-		ProductionOrderActualEndDate:          data.ProductionOrderActualEndDate,
-		ProductionOrderActualEndTime:          data.ProductionOrderActualEndTime,
-		TotalQuantity:                         *data.TotalQuantity,
-		PlannedScrapQuantity:                  data.PlannedScrapQuantity,
-		ConfirmedYieldQuantity:                data.ConfirmedYieldQuantity,
-		ProductionOrderItemText:               data.ProductionOrderItemText,
+		ProductionOrder:								data.ProductionOrder,
+		ProductionOrderItem:							data.ProductionOrderItem,
+		ProductionPlantBusinessPartner:					data.ProductionPlantBusinessPartner,
+		ProductionPlantStorageLocation:					data.ProductionPlantStorageLocation,
+		DeliverFromPlantStorageLocation:				data.DeliverFromPlantStorageLocation,
+		DeliverToPlantStorageLocation:					data.DeliverToPlantStorageLocation,
+		ProductionOrderQuantityInBaseUnit:				data.ProductionOrderQuantityInBaseUnit,
+		ProductionOrderQuantityInProductionUnit:		data.ProductionOrderQuantityInProductionUnit,
+		ProductionOrderQuantityInDeliveryUnit:			data.ProductionOrderQuantityInDeliveryUnit,
+		ProductionOrderPlannedScrapQtyInBaseUnit:		data.ProductionOrderPlannedScrapQtyInBaseUnit,
+		ProductionOrderPlannedStartDate:				data.ProductionOrderPlannedStartDate,
+		ProductionOrderPlannedStartTime:				data.ProductionOrderPlannedStartTime,
+		ProductionOrderPlannedEndDate:					data.ProductionOrderPlannedEndDate,
+		ProductionOrderPlannedEndTime:					data.ProductionOrderPlannedEndTime,
+		ProductionOrderActualStartDate:					data.ProductionOrderActualStartDate,
+		ProductionOrderActualStartTime:					data.ProductionOrderActualStartTime,
+		ProductionOrderActualEndDate:					data.ProductionOrderActualEndDate,
+		ProductionOrderActualEndTime:					data.ProductionOrderActualEndTime,
+		ProductionOrderItemText:						data.ProductionOrderItemText,
+		IsLocked:										data.IsLocked,
 	}
 }
 
@@ -72,46 +62,30 @@ func ConvertToItemComponentUpdates(itemComponentUpdates dpfm_api_input_reader.It
 	data := itemComponentUpdates
 
 	return &ItemComponentUpdates{
-		ProductionOrder:                      data.ProductionOrder,
-		ProductionOrderItem:                  data.ProductionOrderItem,
-		Operations:                           data.Operations,
-		OperationsItem:                       data.OperationsItem,
-		BillOfMaterial:                       data.BillOfMaterial,
-		BillOfMaterialItem:                   data.BillOfMaterialItem,
-		ComponentProductRequirementDate:      data.ComponentProductRequirementDate,
-		ComponentProductRequirementTime:      data.ComponentProductRequirementTime,
-		ComponentProductIsMarkedForBackflush: data.ComponentProductIsMarkedForBackflush,
-		ComponentProductBusinessPartner:      data.ComponentProductBusinessPartner,
-		StockConfirmationPlant:               data.StockConfirmationPlant,
-		SortField:                            data.SortField,
-		BOMItemDescription:                   data.BOMItemDescription,
-		GoodsRecipientName:                   data.GoodsRecipientName,
-		UnloadingPointName:                   data.UnloadingPointName,
-		ProductCompIsAlternativeItem:         data.ProductCompIsAlternativeItem,
-		CostingPolicy:                        data.CostingPolicy,
-		PriceUnitQty:                         data.PriceUnitQty,
-		StandardPrice:                        data.StandardPrice,
-		MovingAveragePrice:                   data.MovingAveragePrice,
-		ComponentScrapInPercent:              data.ComponentScrapInPercent,
-		OperationScrapInPercent:              data.OperationScrapInPercent,
-		RequiredQuantity:                     data.RequiredQuantity,
-		WithdrawnQuantity:                    data.WithdrawnQuantity,
-		ConfirmedAvailableQuantity:           data.ConfirmedAvailableQuantity,
-		IsMarkedForDeletion:                  data.IsMarkedForDeletion,
+		ProductionOrder:								data.ProductionOrder,
+		ProductionOrderItem:							data.ProductionOrderItem,
+		BillOfMaterial:									data.BillOfMaterial,
+		BillOfMaterialItem:								data.BillOfMaterialItem,
+		ComponentProductRequirementDate:				data.ComponentProductRequirementDate,
+		ComponentProductRequirementTime:				data.ComponentProductRequirementTime,
+		ComponentProductRequiredQuantityInBaseUnit:		data.ComponentProductRequiredQuantityInBaseUnit,
+		ComponentProductRequiredQuantityInDeliveryUnit:	data.ComponentProductRequiredQuantityInDeliveryUnit,
+		ComponentProductPlannedScrapInPercent:			data.ComponentProductPlannedScrapInPercent,
+		IsLocked:										data.IsLocked,
 	}
 }
 
-func ConvertToItemComponentStockConfirmationUpdates(itemComponentStockConfirmationUpdates dpfm_api_input_reader.ItemComponentStockConfirmation) *ItemComponentStockConfirmationUpdates {
-	data := itemComponentStockConfirmationUpdates
+func ConvertToItemComponentDeliveryScheduleLineUpdates(itemComponentDeliveryScheduleLineUpdates dpfm_api_input_reader.ItemComponentDeliveryScheduleLine) *ItemComponentDeliveryScheduleLineUpdates {
+	data := itemComponentDeliveryScheduleLineUpdates
 
-	return &ItemComponentStockConfirmationUpdates{
-		ProductionOrder:     data.ProductionOrder,
-		ProductionOrderItem: data.ProductionOrderItem,
-		Operations:          data.Operations,
-		OperationsItem:      data.OperationsItem,
-		BillOfMaterial:      data.BillOfMaterial,
-		BillOfMaterialItem:  data.BillOfMaterialItem,
-		IsMarkedForDeletion: data.IsMarkedForDeletion,
+	return &ItemComponentDeliveryScheduleLineUpdates{
+		ProductionOrder:						data.ProductionOrder,
+		ProductionOrderItem:					data.ProductionOrderItem,
+		BillOfMaterial:							data.BillOfMaterial,
+		BillOfMaterialItem:						data.BillOfMaterialItem,
+		ScheduleLine:							data.ScheduleLine,
+		ItemScheduleLineDeliveryBlockStatus:	data.ItemScheduleLineDeliveryBlockStatus,
+		IsLocked:								data.IsLocked,
 	}
 }
 
@@ -119,39 +93,38 @@ func ConvertToItemComponentCostingUpdates(itemComponentCostingUpdates dpfm_api_i
 	data := itemComponentCostingUpdates
 
 	return &ItemComponentCostingUpdates{
-		ProductionOrder:     data.ProductionOrder,
-		ProductionOrderItem: data.ProductionOrderItem,
-		Operations:          data.Operations,
-		OperationsItem:      data.OperationsItem,
-		CostingAmount:       data.CostingAmount,
-		IsMarkedForDeletion: data.IsMarkedForDeletion,
+		ProductionOrder:				data.ProductionOrder,
+		ProductionOrderItem:			data.ProductionOrderItem,
+		BillOfMaterial:					data.BillOfMaterial,
+		BillOfMaterialItem:				data.BillOfMaterialItem,
+		IsLocked:						data.IsLocked,
 	}
 }
 
-func ConvertToItemOperationsUpdates(itemOperationsUpdates dpfm_api_input_reader.ItemOperations) *ItemOperationsUpdates {
-	data := itemOperationsUpdates
+func ConvertToItemOperationUpdates(itemOperationUpdates dpfm_api_input_reader.ItemOperation) *ItemOperationUpdates{
+	data := itemOperationUpdates
 
-	return &ItemOperationsUpdates{
-		ProductionOrder:                      data.ProductionOrder,
-		ProductionOrderItem:                  data.ProductionOrderItem,
-		Operations:                           data.Operations,
-		OperationsItem:                       data.OperationsItem,
-		OperationsText:                       data.OperationsText,
-		SequenceText:                         data.SequenceText,
-		OperationIsPartiallyConfirmed:        data.OperationIsPartiallyConfirmed,
-		OperationIsConfirmed:                 data.OperationIsConfirmed,
-		OperationIsClosed:                    data.OperationIsClosed,
-		OperationErlstSchedldExecStrtDte:     data.OperationErlstSchedldExecStrtDte,
-		OperationErlstSchedldExecStrtTme:     data.OperationErlstSchedldExecStrtTme,
-		OperationErlstSchedldExecEndDate:     data.OperationErlstSchedldExecEndDate,
-		OperationErlstSchedldExecEndTme:      data.OperationErlstSchedldExecEndTme,
-		OperationActualExecutionStartDate:    data.OperationActualExecutionStartDate,
-		OperationActualExecutionStartTime:    data.OperationActualExecutionStartTime,
-		OperationActualExecutionEndDate:      data.OperationActualExecutionEndDate,
-		OperationActualExecutionEndTime:      data.OperationActualExecutionEndTime,
-		ErlstSchedldExecDurnInWorkdays:       data.ErlstSchedldExecDurnInWorkdays,
-		OperationActualExecutionDays:         data.OperationActualExecutionDays,
-		OperationPlannedTotalQuantity:        data.OperationPlannedTotalQuantity,
-		OperationTotalConfirmedYieldQuantity: data.OperationTotalConfirmedYieldQuantity,
+	return &ItemOperationUpdates{
+		ProductionOrder:									data.ProductionOrder,
+		ProductionOrderItem:								data.ProductionOrderItem,
+		Operations:											data.Operations,
+		OperationsItem:										data.OperationsItem,
+		OperationID:										data.OperationID,
+		SequenceText:										data.SequenceText,
+		OperationText:										data.OperationText,
+		OperationPlannedQuantityInBaseUnit:					data.OperationPlannedQuantityInBaseUnit,
+		OperationPlannedQuantityInProductionUnit:			data.OperationPlannedQuantityInProductionUnit,
+		OperationPlannedQuantityInOperationUnit:			data.OperationPlannedQuantityInOperationUnit,
+		OperationPlannedQuantityInDeliveryUnit:				data.OperationPlannedQuantityInDeliveryUnit,
+		OperationPlannedScrapInPercent:						data.OperationPlannedScrapInPercent,
+		OperationErlstSchedldExecStrtDte:					data.OperationErlstSchedldExecStrtDte,
+		OperationErlstSchedldExecStrtTme:					data.OperationErlstSchedldExecStrtTme,
+		OperationErlstSchedldExecEndDte:					data.OperationErlstSchedldExecEndDte,
+		OperationErlstSchedldExecEndTme:					data.OperationErlstSchedldExecEndTme,
+		OperationActualExecutionStartDate:					data.OperationActualExecutionStartDate,
+		OperationActualExecutionStartTime:					data.OperationActualExecutionStartTime,
+		OperationActualExecutionEndDate:					data.OperationActualExecutionEndDate,
+		OperationActualExecutionEndTime:					data.OperationActualExecutionEndTime,
+		IsLocked:											data.IsLocked,
 	}
 }

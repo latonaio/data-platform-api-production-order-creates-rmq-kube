@@ -50,21 +50,6 @@ func ConvertToItemComponentCreates(subfuncSDC *sub_func_complementer.SDC) (*[]It
 	return &itemComponents, nil
 }
 
-func ConvertToItemComponentStockConfirmationCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ItemComponentStockConfirmation, error) {
-	itemComponentStockConfirmations := make([]ItemComponentStockConfirmation, 0)
-
-	for _, data := range *subfuncSDC.Message.ItemComponentStockConfirmation {
-		itemComponentStockConfirmation, err := TypeConverter[*ItemComponentStockConfirmation](data)
-		if err != nil {
-			return nil, err
-		}
-
-		itemComponentStockConfirmations = append(itemComponentStockConfirmations, *itemComponentStockConfirmation)
-	}
-
-	return &itemComponentStockConfirmations, nil
-}
-
 func ConvertToItemComponentCostingCreates(subfuncSDC *sub_func_complementer.SDC) (*[]ItemComponentCosting, error) {
 	itemComponentCostings := make([]ItemComponentCosting, 0)
 
@@ -134,21 +119,6 @@ func ConvertToItemComponentUpdates(itemComponentUpdates *[]dpfm_api_processing_f
 	}
 
 	return &itemComponents, nil
-}
-
-func ConvertToItemComponentStockConfirmationUpdates(itemComponentStockConfirmationUpdates *[]dpfm_api_processing_formatter.ItemComponentStockConfirmationUpdates) (*[]ItemComponentStockConfirmation, error) {
-	itemComponentStockConfirmations := make([]ItemComponentStockConfirmation, 0)
-
-	for _, data := range *itemComponentStockConfirmationUpdates {
-		itemComponentStockConfirmation, err := TypeConverter[*ItemComponentStockConfirmation](data)
-		if err != nil {
-			return nil, err
-		}
-
-		itemComponentStockConfirmations = append(itemComponentStockConfirmations, *itemComponentStockConfirmation)
-	}
-
-	return &itemComponentStockConfirmations, nil
 }
 
 func ConvertToItemComponentCostingUpdates(itemComponentCostingUpdates *[]dpfm_api_processing_formatter.ItemComponentCostingUpdates) (*[]ItemComponentCosting, error) {
