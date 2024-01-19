@@ -25,9 +25,10 @@ func (c *DPFMAPICaller) createSqlProcess(
 	var header *dpfm_api_output_formatter.Header
 	var item *[]dpfm_api_output_formatter.Item
 	var itemComponent *[]dpfm_api_output_formatter.ItemComponent
-	var itemComponentStockConfirmation *[]dpfm_api_output_formatter.ItemComponentStockConfirmation
+	var itemComponentDeliveryScheduleLine *[]dpfm_api_output_formatter.ItemComponentDeliveryScheduleLine
+	var itemComponentPricingElement *[]dpfm_api_output_formatter.ItemComponentPricingElement
 	var itemComponentCosting *[]dpfm_api_output_formatter.ItemComponentCosting
-	var itemOperations *[]dpfm_api_output_formatter.ItemOperations
+	var itemOperation *[]dpfm_api_output_formatter.ItemOperation
 	for _, fn := range accepter {
 		switch fn {
 		case "Header":
@@ -36,23 +37,26 @@ func (c *DPFMAPICaller) createSqlProcess(
 			item = c.itemCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
 		case "ItemComponent":
 			itemComponent = c.itemComponentCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
-		case "ItemComponentStockConfirmation":
-			itemComponentStockConfirmation = c.itemComponentStockConfirmationCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
+		case "ItemComponentDeliveryScheduleLine":
+			itemComponentDeliveryScheduleLine = c.itemComponentDeliveryScheduleLineCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
+		case "ItemComponentPricingElement":
+			itemComponentPricingElement = c.itemComponentPricingElementCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
 		case "ItemComponentCosting":
 			itemComponentCosting = c.itemComponentCostingCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
-		case "ItemOperations":
-			itemOperations = c.itemOperationsCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
+		case "ItemOperation":
+			itemOperation = c.itemOperationCreateSql(nil, mtx, input, output, subfuncSDC, errs, log)
 		default:
 		}
 	}
 
 	data := &dpfm_api_output_formatter.Message{
-		Header:                         header,
-		Item:                           item,
-		ItemComponent:                  itemComponent,
-		ItemComponentStockConfirmation: itemComponentStockConfirmation,
-		ItemComponentCosting:           itemComponentCosting,
-		ItemOperations:                 itemOperations,
+		Header:                         	header,
+		Item:                           	item,
+		ItemComponent:                  	itemComponent,
+		ItemComponentDeliveryScheduleLine:	itemComponentDeliveryScheduleLine,
+		ItemComponentPricingElement:       	itemComponentPricingElement,
+		ItemComponentCosting:           	itemComponentCosting,
+		ItemOperation:                  	itemOperation,
 	}
 
 	return data
@@ -67,12 +71,13 @@ func (c *DPFMAPICaller) updateSqlProcess(
 	errs *[]error,
 	log *logger.Logger,
 ) interface{} {
-	var header *dpfm_api_output_formatter.Header
-	var item *[]dpfm_api_output_formatter.Item
-	var itemComponent *[]dpfm_api_output_formatter.ItemComponent
-	var itemComponentStockConfirmation *[]dpfm_api_output_formatter.ItemComponentStockConfirmation
-	var itemComponentCosting *[]dpfm_api_output_formatter.ItemComponentCosting
-	var itemOperations *[]dpfm_api_output_formatter.ItemOperations
+	var header								*dpfm_api_output_formatter.Header
+	var item								*[]dpfm_api_output_formatter.Item
+	var itemComponent						*[]dpfm_api_output_formatter.ItemComponent
+	var itemComponentDeliveryScheduleLine	*[]dpfm_api_output_formatter.ItemComponentDeliveryScheduleLine
+	var itemComponentPricingElement			*[]dpfm_api_output_formatter.ItemComponentPricingElement
+	var itemComponentCosting				*[]dpfm_api_output_formatter.ItemComponentCosting
+	var itemOperation						*[]dpfm_api_output_formatter.ItemOperation
 	for _, fn := range accepter {
 		switch fn {
 		case "Header":
@@ -81,23 +86,26 @@ func (c *DPFMAPICaller) updateSqlProcess(
 			item = c.itemUpdateSql(mtx, input, output, errs, log)
 		case "ItemComponent":
 			itemComponent = c.itemComponentUpdateSql(mtx, input, output, errs, log)
-		case "ItemComponentStockConfirmation":
-			itemComponentStockConfirmation = c.itemComponentStockConfirmationUpdateSql(mtx, input, output, errs, log)
+		case "ItemComponentDeliveryScheduleLine":
+			itemComponentDeliveryScheduleLine = c.itemComponentDeliveryScheduleLineUpdateSql(mtx, input, output, errs, log)
+		case "ItemComponentPricingElement":
+			itemComponentPricingElement = c.itemComponentPricingElementUpdateSql(mtx, input, output, errs, log)
 		case "ItemComponentCosting":
 			itemComponentCosting = c.itemComponentCostingUpdateSql(mtx, input, output, errs, log)
-		case "ItemOperations":
-			itemOperations = c.itemOperationsUpdateSql(mtx, input, output, errs, log)
+		case "ItemOperation":
+			itemOperation = c.itemOperationUpdateSql(mtx, input, output, errs, log)
 		default:
 		}
 	}
 
 	data := &dpfm_api_output_formatter.Message{
-		Header:                         header,
-		Item:                           item,
-		ItemComponent:                  itemComponent,
-		ItemComponentStockConfirmation: itemComponentStockConfirmation,
-		ItemComponentCosting:           itemComponentCosting,
-		ItemOperations:                 itemOperations,
+		Header:                         	header,
+		Item:                           	item,
+		ItemComponent:                	    itemComponent,
+		ItemComponentDeliveryScheduleLine:  itemComponentDeliveryScheduleLine,
+		ItemComponentPricingElement:   	    itemComponentPricingElement,
+		ItemComponentCosting:           	itemComponentCosting,
+		ItemOperation:                  	itemOperation,
 	}
 
 	return data
@@ -205,7 +213,7 @@ func (c *DPFMAPICaller) itemComponentCreateSql(
 		res.Success()
 		if !checkResult(res) {
 			output.SQLUpdateResult = getBoolPtr(false)
-			output.SQLUpdateError = "Item Component Data cannot insert"
+			output.SQLUpdateError = "ItemComponent Data cannot insert"
 			return nil
 		}
 	}
@@ -223,7 +231,7 @@ func (c *DPFMAPICaller) itemComponentCreateSql(
 	return data
 }
 
-func (c *DPFMAPICaller) itemComponentStockConfirmationCreateSql(
+func (c *DPFMAPICaller) itemComponentDeliveryScheduleLineCreateSql(
 	ctx context.Context,
 	mtx *sync.Mutex,
 	input *dpfm_api_input_reader.SDC,
@@ -231,13 +239,13 @@ func (c *DPFMAPICaller) itemComponentStockConfirmationCreateSql(
 	subfuncSDC *sub_func_complementer.SDC,
 	errs *[]error,
 	log *logger.Logger,
-) *[]dpfm_api_output_formatter.ItemComponentStockConfirmation {
+) *[]dpfm_api_output_formatter.ItemComponentDeliveryScheduleLine {
 	if ctx == nil {
 		ctx = context.Background()
 	}
 	sessionID := input.RuntimeSessionID
-	for _, itemComponentStockConfirmationData := range *subfuncSDC.Message.ItemComponentStockConfirmation {
-		res, err := c.rmq.SessionKeepRequest(ctx, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemComponentStockConfirmationData, "function": "ProductionOrderItemComponentStockConfirmation", "runtime_session_id": sessionID})
+	for _, itemComponentDeliveryScheduleLineData := range *subfuncSDC.Message.ItemComponentDeliveryScheduleLine {
+		res, err := c.rmq.SessionKeepRequest(ctx, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemComponentDeliveryScheduleLineData, "function": "ProductionOrderItemComponentDeliveryScheduleLine", "runtime_session_id": sessionID})
 		if err != nil {
 			err = xerrors.Errorf("rmq error: %w", err)
 			return nil
@@ -245,7 +253,7 @@ func (c *DPFMAPICaller) itemComponentStockConfirmationCreateSql(
 		res.Success()
 		if !checkResult(res) {
 			output.SQLUpdateResult = getBoolPtr(false)
-			output.SQLUpdateError = "Item Component Stock Confirmation Data cannot insert"
+			output.SQLUpdateError = "ItemComponentDeliveryScheduleLine Data cannot insert"
 			return nil
 		}
 	}
@@ -254,7 +262,47 @@ func (c *DPFMAPICaller) itemComponentStockConfirmationCreateSql(
 		output.SQLUpdateResult = getBoolPtr(true)
 	}
 
-	data, err := dpfm_api_output_formatter.ConvertToItemComponentStockConfirmationCreates(subfuncSDC)
+	data, err := dpfm_api_output_formatter.ConvertToItemComponentDeliveryScheduleLineCreates(subfuncSDC)
+	if err != nil {
+		*errs = append(*errs, err)
+		return nil
+	}
+
+	return data
+}
+
+func (c *DPFMAPICaller) itemComponentPricingElementCreateSql(
+	ctx context.Context,
+	mtx *sync.Mutex,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	subfuncSDC *sub_func_complementer.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) *[]dpfm_api_output_formatter.ItemComponentPricingElement {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	sessionID := input.RuntimeSessionID
+	for _, itemComponentPricingElementData := range *subfuncSDC.Message.ItemComponentPricingElement {
+		res, err := c.rmq.SessionKeepRequest(ctx, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemComponentPricingElementData, "function": "ProductionOrderItemComponentPricingElement", "runtime_session_id": sessionID})
+		if err != nil {
+			err = xerrors.Errorf("rmq error: %w", err)
+			return nil
+		}
+		res.Success()
+		if !checkResult(res) {
+			output.SQLUpdateResult = getBoolPtr(false)
+			output.SQLUpdateError = "ItemComponentPricingElement Data cannot insert"
+			return nil
+		}
+	}
+
+	if output.SQLUpdateResult == nil {
+		output.SQLUpdateResult = getBoolPtr(true)
+	}
+
+	data, err := dpfm_api_output_formatter.ConvertToItemComponentPricingElementCreates(subfuncSDC)
 	if err != nil {
 		*errs = append(*errs, err)
 		return nil
@@ -303,7 +351,7 @@ func (c *DPFMAPICaller) itemComponentCostingCreateSql(
 	return data
 }
 
-func (c *DPFMAPICaller) itemOperationsCreateSql(
+func (c *DPFMAPICaller) itemOperationCreateSql(
 	ctx context.Context,
 	mtx *sync.Mutex,
 	input *dpfm_api_input_reader.SDC,
@@ -311,13 +359,13 @@ func (c *DPFMAPICaller) itemOperationsCreateSql(
 	subfuncSDC *sub_func_complementer.SDC,
 	errs *[]error,
 	log *logger.Logger,
-) *[]dpfm_api_output_formatter.ItemOperations {
+) *[]dpfm_api_output_formatter.ItemOperation {
 	if ctx == nil {
 		ctx = context.Background()
 	}
 	sessionID := input.RuntimeSessionID
-	for _, itemOperationData := range *subfuncSDC.Message.ItemOperations {
-		res, err := c.rmq.SessionKeepRequest(ctx, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemOperationData, "function": "ProductionOrderItemOperations", "runtime_session_id": sessionID})
+	for _, itemOperationData := range *subfuncSDC.Message.ItemOperation {
+		res, err := c.rmq.SessionKeepRequest(ctx, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemOperationData, "function": "ProductionOrderItemOperation", "runtime_session_id": sessionID})
 		if err != nil {
 			err = xerrors.Errorf("rmq error: %w", err)
 			return nil
@@ -325,7 +373,7 @@ func (c *DPFMAPICaller) itemOperationsCreateSql(
 		res.Success()
 		if !checkResult(res) {
 			output.SQLUpdateResult = getBoolPtr(false)
-			output.SQLUpdateError = "Item Operation Data cannot insert"
+			output.SQLUpdateError = "ItemOperation Data cannot insert"
 			return nil
 		}
 	}
@@ -334,7 +382,7 @@ func (c *DPFMAPICaller) itemOperationsCreateSql(
 		output.SQLUpdateResult = getBoolPtr(true)
 	}
 
-	data, err := dpfm_api_output_formatter.ConvertToItemOperationsCreates(subfuncSDC)
+	data, err := dpfm_api_output_formatter.ConvertToItemOperationCreates(subfuncSDC)
 	if err != nil {
 		*errs = append(*errs, err)
 		return nil
@@ -472,24 +520,24 @@ func (c *DPFMAPICaller) itemComponentUpdateSql(
 	return data
 }
 
-func (c *DPFMAPICaller) itemComponentStockConfirmationUpdateSql(
+func (c *DPFMAPICaller) itemComponentDeliveryScheduleLineUpdateSql(
 	mtx *sync.Mutex,
 	input *dpfm_api_input_reader.SDC,
 	output *dpfm_api_output_formatter.SDC,
 	errs *[]error,
 	log *logger.Logger,
-) *[]dpfm_api_output_formatter.ItemComponentStockConfirmation {
-	req := make([]dpfm_api_processing_formatter.ItemComponentStockConfirmationUpdates, 0)
+) *[]dpfm_api_output_formatter.ItemComponentDeliveryScheduleLine {
+	req := make([]dpfm_api_processing_formatter.ItemComponentDeliveryScheduleLineUpdates, 0)
 	sessionID := input.RuntimeSessionID
 
 	header := input.Header
 	for _, item := range header.Item {
 		for _, itemComponent := range item.ItemComponent {
-			for _, itemComponentStockConfirmation := range itemComponent.ItemComponentStockConfirmation {
-				itemComponentStockConfirmationData := *dpfm_api_processing_formatter.ConvertToItemComponentStockConfirmationUpdates(itemComponentStockConfirmation)
+			for _, itemComponentDeliveryScheduleLine := range itemComponent.ItemComponentDeliveryScheduleLine {
+				itemComponentDeliveryScheduleLineData := *dpfm_api_processing_formatter.ConvertToItemComponentDeliveryScheduleLineUpdates(itemComponentDeliveryScheduleLine)
 
-				if itemComponentStockConfirmationIsUpdate(&itemComponentStockConfirmationData) {
-					res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemComponentStockConfirmationData, "function": "ProductionOrderItemComponentStockConfirmation", "runtime_session_id": sessionID})
+				if itemComponentDeliveryScheduleLineIsUpdate(&itemComponentDeliveryScheduleLineData) {
+					res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemComponentDeliveryScheduleLineData, "function": "ProductionOrderItemComponentDeliveryScheduleLine", "runtime_session_id": sessionID})
 					if err != nil {
 						err = xerrors.Errorf("rmq error: %w", err)
 						*errs = append(*errs, err)
@@ -498,11 +546,11 @@ func (c *DPFMAPICaller) itemComponentStockConfirmationUpdateSql(
 					res.Success()
 					if !checkResult(res) {
 						output.SQLUpdateResult = getBoolPtr(false)
-						output.SQLUpdateError = "Item Component Stock Confirmation Data cannot update"
+						output.SQLUpdateError = "ItemComponentDeliveryScheduleLine Data cannot update"
 						return nil
 					}
 				}
-				req = append(req, itemComponentStockConfirmationData)
+				req = append(req, itemComponentDeliveryScheduleLineData)
 			}
 		}
 	}
@@ -511,7 +559,55 @@ func (c *DPFMAPICaller) itemComponentStockConfirmationUpdateSql(
 		output.SQLUpdateResult = getBoolPtr(true)
 	}
 
-	data, err := dpfm_api_output_formatter.ConvertToItemComponentStockConfirmationUpdates(&req)
+	data, err := dpfm_api_output_formatter.ConvertToItemComponentDeliveryScheduleLineUpdates(&req)
+	if err != nil {
+		*errs = append(*errs, err)
+		return nil
+	}
+
+	return data
+}
+
+func (c *DPFMAPICaller) itemComponentPricingElementUpdateSql(
+	mtx *sync.Mutex,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) *[]dpfm_api_output_formatter.ItemComponentPricingElement {
+	req := make([]dpfm_api_processing_formatter.ItemComponentPricingElementUpdates, 0)
+	sessionID := input.RuntimeSessionID
+
+	header := input.Header
+	for _, item := range header.Item {
+		for _, itemComponent := range item.ItemComponent {
+			for _, itemComponentPricingElement := range itemComponent.ItemComponentPricingElement {
+				itemComponentPricingElementData := *dpfm_api_processing_formatter.ConvertToItemComponentPricingElementUpdates(itemComponentPricingElement)
+
+				if itemComponentPricingElementIsUpdate(&itemComponentPricingElementData) {
+					res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemComponentPricingElementData, "function": "ProductionOrderItemComponentPricingElement", "runtime_session_id": sessionID})
+					if err != nil {
+						err = xerrors.Errorf("rmq error: %w", err)
+						*errs = append(*errs, err)
+						return nil
+					}
+					res.Success()
+					if !checkResult(res) {
+						output.SQLUpdateResult = getBoolPtr(false)
+						output.SQLUpdateError = "ItemComponentPricingElement Data cannot update"
+						return nil
+					}
+				}
+				req = append(req, itemComponentPricingElementData)
+			}
+		}
+	}
+
+	if output.SQLUpdateResult == nil {
+		output.SQLUpdateResult = getBoolPtr(true)
+	}
+
+	data, err := dpfm_api_output_formatter.ConvertToItemComponentPricingElementUpdates(&req)
 	if err != nil {
 		*errs = append(*errs, err)
 		return nil
@@ -546,7 +642,7 @@ func (c *DPFMAPICaller) itemComponentCostingUpdateSql(
 					res.Success()
 					if !checkResult(res) {
 						output.SQLUpdateResult = getBoolPtr(false)
-						output.SQLUpdateError = "Item Component Costing Data cannot update"
+						output.SQLUpdateError = "ItemComponentCosting Data cannot update"
 						return nil
 					}
 				}
@@ -568,23 +664,23 @@ func (c *DPFMAPICaller) itemComponentCostingUpdateSql(
 	return data
 }
 
-func (c *DPFMAPICaller) itemOperationsUpdateSql(
+func (c *DPFMAPICaller) itemOperationUpdateSql(
 	mtx *sync.Mutex,
 	input *dpfm_api_input_reader.SDC,
 	output *dpfm_api_output_formatter.SDC,
 	errs *[]error,
 	log *logger.Logger,
-) *[]dpfm_api_output_formatter.ItemOperations {
-	req := make([]dpfm_api_processing_formatter.ItemOperationsUpdates, 0)
+) *[]dpfm_api_output_formatter.ItemOperation {
+	req := make([]dpfm_api_processing_formatter.ItemOperationUpdates, 0)
 	sessionID := input.RuntimeSessionID
 
 	header := input.Header
 	for _, item := range header.Item {
-		for _, itemOperation := range item.ItemOperations {
-			itemOperationData := *dpfm_api_processing_formatter.ConvertToItemOperationsUpdates(itemOperation)
+		for _, itemOperation := range item.ItemOperation {
+			itemOperationData := *dpfm_api_processing_formatter.ConvertToItemOperationUpdates(itemOperation)
 
 			if itemOperationIsUpdate(&itemOperationData) {
-				res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemOperationData, "function": "ProductionOrderItemOperations", "runtime_session_id": sessionID})
+				res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": itemOperationData, "function": "ProductionOrderItemOperation", "runtime_session_id": sessionID})
 				if err != nil {
 					err = xerrors.Errorf("rmq error: %w", err)
 					*errs = append(*errs, err)
@@ -605,7 +701,7 @@ func (c *DPFMAPICaller) itemOperationsUpdateSql(
 		output.SQLUpdateResult = getBoolPtr(true)
 	}
 
-	data, err := dpfm_api_output_formatter.ConvertToItemOperationsUpdates(&req)
+	data, err := dpfm_api_output_formatter.ConvertToItemOperationUpdates(&req)
 	if err != nil {
 		*errs = append(*errs, err)
 		return nil
@@ -630,39 +726,47 @@ func itemIsUpdate(item *dpfm_api_processing_formatter.ItemUpdates) bool {
 func itemComponentIsUpdate(itemComponent *dpfm_api_processing_formatter.ItemComponentUpdates) bool {
 	productionOrder := itemComponent.ProductionOrder
 	productionOrderItem := itemComponent.ProductionOrderItem
-	operations := itemComponent.Operations
-	operationsItem := itemComponent.OperationsItem
 	billOfMaterial := itemComponent.BillOfMaterial
 	billOfMaterialItem := itemComponent.BillOfMaterialItem
 
-	return !(productionOrder == 0 || productionOrderItem == 0 || operations == 0 || operationsItem == 0 || billOfMaterial == 0 || billOfMaterialItem == 0)
+	return !(productionOrder == 0 || productionOrderItem == 0 || billOfMaterial == 0 || billOfMaterialItem == 0)
 }
 
-func itemComponentStockConfirmationIsUpdate(itemComponentStockConfirmation *dpfm_api_processing_formatter.ItemComponentStockConfirmationUpdates) bool {
-	productionOrder := itemComponentStockConfirmation.ProductionOrder
-	productionOrderItem := itemComponentStockConfirmation.ProductionOrderItem
-	operations := itemComponentStockConfirmation.Operations
-	operationsItem := itemComponentStockConfirmation.OperationsItem
-	billOfMaterial := itemComponentStockConfirmation.BillOfMaterial
-	billOfMaterialItem := itemComponentStockConfirmation.BillOfMaterialItem
+func itemComponentDeliveryScheduleLineIsUpdate(itemComponentDeliveryScheduleLine *dpfm_api_processing_formatter.ItemComponentDeliveryScheduleLineUpdates) bool {
+	productionOrder := itemComponentDeliveryScheduleLine.ProductionOrder
+	productionOrderItem := itemComponentDeliveryScheduleLine.ProductionOrderItem
+	billOfMaterial := itemComponentDeliveryScheduleLine.BillOfMaterial
+	billOfMaterialItem := itemComponentDeliveryScheduleLine.BillOfMaterialItem
+	scheduleLine := itemComponentDeliveryScheduleLine.ScheduleLine
 
-	return !(productionOrder == 0 || productionOrderItem == 0 || operations == 0 || operationsItem == 0 || billOfMaterial == 0 || billOfMaterialItem == 0)
+	return !(productionOrder == 0 || productionOrderItem == 0 || billOfMaterial == 0 || billOfMaterialItem == 0 || scheduleLine == 0)
+}
+
+func itemComponentPricingElementIsUpdate(itemComponentPricingElement *dpfm_api_processing_formatter.ItemComponentPricingElementUpdates) bool {
+	productionOrder := itemComponentPricingElement.ProductionOrder
+	productionOrderItem := itemComponentPricingElement.ProductionOrderItem
+	billOfMaterial := itemComponentPricingElement.BillOfMaterial
+	billOfMaterialItem := itemComponentPricingElement.BillOfMaterialItem
+	pricingProcedureCounter := itemComponentPricingElement.PricingProcedureCounter
+
+	return !(productionOrder == 0 || productionOrderItem == 0 || billOfMaterial == 0 || billOfMaterialItem == 0 || pricingProcedureCounter == 0)
 }
 
 func itemComponentCostingIsUpdate(itemComponentCosting *dpfm_api_processing_formatter.ItemComponentCostingUpdates) bool {
 	productionOrder := itemComponentCosting.ProductionOrder
 	productionOrderItem := itemComponentCosting.ProductionOrderItem
-	operations := itemComponentCosting.Operations
-	operationsItem := itemComponentCosting.OperationsItem
+	billOfMaterial := itemComponentCosting.BillOfMaterial
+	billOfMaterialItem := itemComponentCosting.BillOfMaterialItem
 
-	return !(productionOrder == 0 || productionOrderItem == 0 || operations == 0 || operationsItem == 0)
+	return !(productionOrder == 0 || productionOrderItem == 0 || billOfMaterial == 0 || billOfMaterialItem == 0)
 }
 
-func itemOperationIsUpdate(itemOperation *dpfm_api_processing_formatter.ItemOperationsUpdates) bool {
+func itemOperationIsUpdate(itemOperation *dpfm_api_processing_formatter.ItemOperationUpdates) bool {
 	productionOrder := itemOperation.ProductionOrder
 	productionOrderItem := itemOperation.ProductionOrderItem
 	operations := itemOperation.Operations
 	operationsItem := itemOperation.OperationsItem
+	operationID := itemOperation.OperationID
 
-	return !(productionOrder == 0 || productionOrderItem == 0 || operations == 0 || operationsItem == 0)
+	return !(productionOrder == 0 || productionOrderItem == 0 || operations == 0 || operationsItem == 0 || operationID == 0)
 }

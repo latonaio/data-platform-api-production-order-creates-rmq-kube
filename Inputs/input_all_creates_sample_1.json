@@ -8,8 +8,42 @@
 	"business_partner": null,
 	"service_label": "PRODUCTION_ORDER",
 	"api_type": "creates",
+	"UsageControl": {
+		"UsageControlLess": null,
+		"Perpetual": null,
+		"Rental": null,
+		"Duration": null,
+		"DurationUnit": "",
+		"ValidityStartDate": "",
+		"ValidityStartTime": "",
+		"ValidityEndDate": "",
+		"ValidityEndTime": "",
+		"DeleteAfterValidityEnd": null,
+		"ServiceLabelRestriction": [],
+		"ApplicationRestriction": [],
+		"PurposeRestriction": [],
+		"BusinessPartnerRoleRestriction": [],
+		"LocationRestriction": {
+			"PostalCode": [],
+			"LocalSubRegion": [],
+			"LocalRegion": [],
+			"Country": [],
+			"GlobalRegion": [],
+			"TimeZone": []
+		},
+		"DataStateRestriction": [],
+		"NumberOfUsageRestriction": null,
+		"IPAddressRestriction": [],
+		"MACAddressRestriction": [],
+		"ModifyIsAllowed": null,
+		"LocalLoggingIsAllowed": null,
+		"RemoteNotificationIsAllowed": null,
+		"DestributeOnlyIfEncrypted": null,
+		"AttachPolicyWhenDestribute": null
+	},
 	"ProductionOrder": {
 		"ProductionOrder": null,
+		"ProductionOrderDate": "",
 		"SupplyChainRelationshipID": null,
 		"SupplyChainRelationshipDeliveryID": null,
 		"SupplyChainRelationshipDeliveryPlantID": null,
@@ -57,6 +91,8 @@
 		"OrderID": null,
 		"OrderItem": null,
 		"ProductionOrderHeaderText": "",
+		"CertificateAuthorityChain": "",
+		"UsageControlChain": "",
 		"CreationDate": "",
 		"CreationTime": "",
 		"LastChangeDate": "",
@@ -81,6 +117,7 @@
 		"Item": [
 			{
 				"ProductionOrderItem": null,
+				"ProductionOrderItemDate": "",
 				"PrecedingProductionOrderItem": null,
 				"FollowingProductionOrderItem": null,
 				"SupplyChainRelationshipID": null,
@@ -234,6 +271,35 @@
 								"StockIsFullyConfirmed": null,
 								"PlusMinusFlag": "",
 								"ItemScheduleLineDeliveryBlockStatus": null,
+								"CreationDate": null,
+								"CreationTime": null,
+								"LastChangeDate": null,
+								"LastChangeTime": null,
+								"IsReleased": null,
+								"IsLocked": null,
+								"IsCancelled": null,
+								"IsMarkedForDeletion": null
+							}
+						],
+						"ItemComponentPricingElement": [
+							{
+								"PricingProcedureCounter": null,
+								"SupplyChainRelationshipID": null,
+								"ComponentProductBuyer": null,
+								"ComponentProductSeller": null,
+								"ConditionRecord": null,
+								"ConditionSequentialNumber": null,
+								"ConditionType": "",
+								"PricingDate": "",
+								"ConditionRateValue": null,
+								"ConditionRateValueUnit": null,
+								"ConditionScaleQuantity": null,
+								"ConditionCurrency": "",
+								"ConditionQuantity": null,
+								"TaxCode": "",
+								"ConditionAmount": null,
+								"TransactionCurrency": "",
+								"ConditionIsManuallyChanged": null,
 								"CreationDate": null,
 								"CreationTime": null,
 								"LastChangeDate": null,
@@ -405,6 +471,32 @@
 						]
 					}
 				]
+			}
+		],
+		"Partner": [
+			{
+				"PartnerFunction": "",
+				"BusinessPartner": null,
+				"BusinessPartnerFullName": "",
+				"BusinessPartnerName": "",
+				"Organization": "",
+				"Language": "",
+				"Currency": "",
+				"ExternalDocumentID": "",
+				"AddressID": null,
+				"EmailAddress": ""
+			}
+		],
+		"Plant": [
+			{
+				"BusinessPartner": null,
+				"Plant": "",
+				"PlantFullName": "",
+				"PlantName": "",
+				"Language": "",
+				"ExternalDocumentID": "",
+				"AddressID": null,
+				"EmailAddress": ""
 			}
 		]
 	},

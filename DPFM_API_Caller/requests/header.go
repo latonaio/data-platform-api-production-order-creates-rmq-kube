@@ -2,6 +2,7 @@ package requests
 
 type Header struct {
 	ProductionOrder                                    int      `json:"ProductionOrder"`
+	ProductionOrderDate                                string   `json:"ProductionOrderDate"`
 	SupplyChainRelationshipID                          int      `json:"SupplyChainRelationshipID"`
 	SupplyChainRelationshipProductionPlantID           int      `json:"SupplyChainRelationshipProductionPlantID"`
 	SupplyChainRelationshipDeliveryID                  int      `json:"SupplyChainRelationshipDeliveryID"`
@@ -49,6 +50,8 @@ type Header struct {
 	OrderID                                            *int     `json:"OrderID"`
 	OrderItem                                          *int     `json:"OrderItem"`
 	ProductionOrderHeaderText                          *string  `json:"ProductionOrderHeaderText"`
+	CertificateAuthorityChain        				   *string  `json:"CertificateAuthorityChain"`
+	UsageControlChain        		 				   *string  `json:"UsageControlChain"`
 	CreationDate                                       string   `json:"CreationDate"`
 	CreationTime                                       string   `json:"CreationTime"`
 	LastChangeDate                                     string   `json:"LastChangeDate"`

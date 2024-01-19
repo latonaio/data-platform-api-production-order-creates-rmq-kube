@@ -7,6 +7,7 @@ func ConvertToHeaderUpdates(header dpfm_api_input_reader.Header) *HeaderUpdates 
 
 	return &HeaderUpdates{
 		ProductionOrder:									data.ProductionOrder,
+		ProductionOrderDate:								data.ProductionOrderDate,
 		OwnerProductionPlantStorageLocation:				data.OwnerProductionPlantStorageLocation,
 		DepartureDeliverFromPlantStorageLocation :			data.DepartureDeliverFromPlantStorageLocation ,
 		DestinationDeliverToPlantStorageLocation:			data.DestinationDeliverToPlantStorageLocation,
@@ -37,6 +38,7 @@ func ConvertToItemUpdates(itemUpdates dpfm_api_input_reader.Item) *ItemUpdates {
 	return &ItemUpdates{
 		ProductionOrder:								data.ProductionOrder,
 		ProductionOrderItem:							data.ProductionOrderItem,
+		ProductionOrderItemDate:						data.ProductionOrderItemDate,
 		ProductionPlantBusinessPartner:					data.ProductionPlantBusinessPartner,
 		ProductionPlantStorageLocation:					data.ProductionPlantStorageLocation,
 		DeliverFromPlantStorageLocation:				data.DeliverFromPlantStorageLocation,
@@ -85,6 +87,23 @@ func ConvertToItemComponentDeliveryScheduleLineUpdates(itemComponentDeliverySche
 		BillOfMaterialItem:						data.BillOfMaterialItem,
 		ScheduleLine:							data.ScheduleLine,
 		ItemScheduleLineDeliveryBlockStatus:	data.ItemScheduleLineDeliveryBlockStatus,
+		IsLocked:								data.IsLocked,
+	}
+}
+
+func ConvertToItemComponentPricingElementUpdates(itemComponentPricingElementUpdates dpfm_api_input_reader.ItemComponentPricingElement) *ItemComponentPricingElementUpdates {
+	data := itemComponentPricingElementUpdates
+
+	return &ItemComponentPricingElementUpdates{
+		ProductionOrder:						data.ProductionOrder,
+		ProductionOrderItem:					data.ProductionOrderItem,
+		BillOfMaterial:							data.BillOfMaterial,
+		BillOfMaterialItem:						data.BillOfMaterialItem,
+		PricingProcedureCounter:				data.PricingProcedureCounter,
+		ConditionRateValue:						data.ConditionRateValue,
+		ConditionRateValueUnit:					data.ConditionRateValueUnit,
+		ConditionScaleQuantity:					data.ConditionScaleQuantity,
+		ConditionAmount:						data.ConditionAmount,
 		IsLocked:								data.IsLocked,
 	}
 }

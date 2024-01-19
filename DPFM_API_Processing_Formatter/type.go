@@ -2,6 +2,7 @@ package dpfm_api_processing_formatter
 
 type HeaderUpdates struct {
 	ProductionOrder                                    int      `json:"ProductionOrder"`
+	ProductionOrderDate                                string   `json:"ProductionOrderDate"`
 	OwnerProductionPlantStorageLocation				   string	`json:"OwnerProductionPlantStorageLocation"`
 	DepartureDeliverFromPlantStorageLocation           string   `json:"DepartureDeliverFromPlantStorageLocation"`
 	DestinationDeliverToPlantStorageLocation           string   `json:"DestinationDeliverToPlantStorageLocation"`
@@ -23,18 +24,10 @@ type HeaderUpdates struct {
 	IsLocked                                           *bool    `json:"IsLocked"`
 }
 
-type HeaderDocUpdates struct {
-	ProductionOrder int     `json:"ProductionOrder"`
-	DocType         string  `json:"DocType"`
-	DocVersionID    int     `json:"DocVersionID"`
-	DocID           string  `json:"DocID"`
-	FileName        *string `json:"FileName"`
-	FilePath        *string `json:"FilePath"`
-}
-
 type ItemUpdates struct {
 	ProductionOrder                               int      `json:"ProductionOrder"`
 	ProductionOrderItem                           int      `json:"ProductionOrderItem"`
+	ProductionOrderItemDate                       string   `json:"ProductionOrderItemDate"`
 	ProductionPlantStorageLocation                string   `json:"ProductionPlantStorageLocation"`
 	DeliverFromPlantStorageLocation               string   `json:"DeliverFromPlantStorageLocation"`
 	DeliverToPlantStorageLocation                 string   `json:"DeliverToPlantStorageLocation"`
@@ -77,24 +70,25 @@ type ItemComponentDeliveryScheduleLineUpdates struct {
 	IsLocked                                   *bool    `json:"IsLocked"`
 }
 
+type ItemComponentPricingElementUpdates struct {
+	ProductionOrder             int      `json:"ProductionOrder"`
+	ProductionOrderItem         int      `json:"ProductionOrderItem"`
+	BillOfMaterial				int      `json:"BillOfMaterial"`
+	BillOfMaterialItem			int      `json:"BillOfMaterialItem"`
+	PricingProcedureCounter		int      `json:"PricingProcedureCounter"`
+	ConditionRateValue          float32  `json:"ConditionRateValue"`
+	ConditionRateValueUnit      int      `json:"ConditionRateValueUnit"`
+	ConditionScaleQuantity      int      `json:"ConditionScaleQuantity"`
+	ConditionAmount             float32  `json:"ConditionAmount"`
+	IsLocked                    *bool    `json:"IsLocked"`
+}
+
 type ItemComponentCostingUpdates struct {
 	ProductionOrder     int     `json:"ProductionOrder"`
 	ProductionOrderItem int     `json:"ProductionOrderItem"`
 	BillOfMaterial      int     `json:"BillOfMaterial"`
 	BillOfMaterialItem  int     `json:"BillOfMaterialItem"`
 	IsLocked            *bool   `json:"IsLocked"`
-}
-
-type ItemDocUpdates struct {
-	ProductionOrder          int     `json:"ProductionOrder"`
-	ProductionOrderItem      int     `json:"ProductionOrderItem"`
-	DocType                  string  `json:"DocType"`
-	DocVersionID             int     `json:"DocVersionID"`
-	DocID                    string  `json:"DocID"`
-	FileExtension            string  `json:"FileExtension"`
-	FileName                 *string `json:"FileName"`
-	FilePath                 *string `json:"FilePath"`
-	DocIssuerBusinessPartner *int    `json:"DocIssuerBusinessPartner"`
 }
 
 type ItemOperationUpdates struct {

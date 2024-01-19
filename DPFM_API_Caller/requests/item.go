@@ -3,6 +3,7 @@ package requests
 type Item struct {
 	ProductionOrder                               int     `json:"ProductionOrder"`
 	ProductionOrderItem                           int     `json:"ProductionOrderItem"`
+	ProductionOrderItemDate                       string  `json:"ProductionOrderItemDate"`
 	PrecedingProductionOrderItem                  int     `json:"PrecedingProductionOrderItem"`
 	FollowingProductionOrderItem                  int     `json:"FollowingProductionOrderItem"`
 	SupplyChainRelationshipID                     int     `json:"SupplyChainRelationshipID"`

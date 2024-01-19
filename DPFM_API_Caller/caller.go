@@ -151,29 +151,15 @@ func (c *DPFMAPICaller) subfuncProcess(
 		case "Item":
 			c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
 		case "ItemComponent":
-			if contains(accepter, "Item") {
-				subFuncFin <- nil
-			} else {
-				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
-			}
-		case "ItemComponentStockConfirmation":
-			if contains(accepter, "Item") {
-				subFuncFin <- nil
-			} else {
-				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
-			}
+			c.itemComponentCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+		case "ItemComponentDeliveryScheduleLine":
+			c.itemComponentDeliveryScheduleLineCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+		case "ItemComponentPricingElement":
+			c.itemComponentPricingElementCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
 		case "ItemComponentCosting":
-			if contains(accepter, "Item") {
-				subFuncFin <- nil
-			} else {
-				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
-			}
-		case "ItemOperations":
-			if contains(accepter, "Item") {
-				subFuncFin <- nil
-			} else {
-				c.itemCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
-			}
+			c.itemComponentCostingCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
+		case "ItemOperation":
+			c.itemOperationCreate(mtx, wg, subFuncFin, input, output, subfuncSDC, errs, log)
 		default:
 			wg.Done()
 		}
@@ -245,6 +231,171 @@ func (c *DPFMAPICaller) itemCreate(
 	}()
 	defer wg.Done()
 	err = c.complementer.ComplementItem(input, subfuncSDC, log)
+	if err != nil {
+		mtx.Lock()
+		*errs = append(*errs, err)
+		mtx.Unlock()
+		return
+	}
+	output.SubfuncResult = getBoolPtr(true)
+	if subfuncSDC.SubfuncResult == nil || !*subfuncSDC.SubfuncResult {
+		output.SubfuncResult = getBoolPtr(false)
+		output.SubfuncError = subfuncSDC.SubfuncError
+		err = xerrors.New(output.SubfuncError)
+		return
+	}
+
+	return
+}
+
+func (c *DPFMAPICaller) itemComponentCreate(
+	mtx *sync.Mutex,
+	wg *sync.WaitGroup,
+	errFin chan error,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	subfuncSDC *sub_func_complementer.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) {
+	var err error = nil
+	defer func() {
+		errFin <- err
+	}()
+	defer wg.Done()
+	err = c.complementer.ComplementItemComponent(input, subfuncSDC, log)
+	if err != nil {
+		mtx.Lock()
+		*errs = append(*errs, err)
+		mtx.Unlock()
+		return
+	}
+	output.SubfuncResult = getBoolPtr(true)
+	if subfuncSDC.SubfuncResult == nil || !*subfuncSDC.SubfuncResult {
+		output.SubfuncResult = getBoolPtr(false)
+		output.SubfuncError = subfuncSDC.SubfuncError
+		err = xerrors.New(output.SubfuncError)
+		return
+	}
+
+	return
+}
+
+func (c *DPFMAPICaller) itemComponentDeliveryScheduleLineCreate(
+	mtx *sync.Mutex,
+	wg *sync.WaitGroup,
+	errFin chan error,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	subfuncSDC *sub_func_complementer.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) {
+	var err error = nil
+	defer func() {
+		errFin <- err
+	}()
+	defer wg.Done()
+	err = c.complementer.ComplementItemComponentDeliveryScheduleLine(input, subfuncSDC, log)
+	if err != nil {
+		mtx.Lock()
+		*errs = append(*errs, err)
+		mtx.Unlock()
+		return
+	}
+	output.SubfuncResult = getBoolPtr(true)
+	if subfuncSDC.SubfuncResult == nil || !*subfuncSDC.SubfuncResult {
+		output.SubfuncResult = getBoolPtr(false)
+		output.SubfuncError = subfuncSDC.SubfuncError
+		err = xerrors.New(output.SubfuncError)
+		return
+	}
+
+	return
+}
+
+func (c *DPFMAPICaller) itemComponentPricingElementCreate(
+	mtx *sync.Mutex,
+	wg *sync.WaitGroup,
+	errFin chan error,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	subfuncSDC *sub_func_complementer.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) {
+	var err error = nil
+	defer func() {
+		errFin <- err
+	}()
+	defer wg.Done()
+	err = c.complementer.ComplementItemComponentPricingElement(input, subfuncSDC, log)
+	if err != nil {
+		mtx.Lock()
+		*errs = append(*errs, err)
+		mtx.Unlock()
+		return
+	}
+	output.SubfuncResult = getBoolPtr(true)
+	if subfuncSDC.SubfuncResult == nil || !*subfuncSDC.SubfuncResult {
+		output.SubfuncResult = getBoolPtr(false)
+		output.SubfuncError = subfuncSDC.SubfuncError
+		err = xerrors.New(output.SubfuncError)
+		return
+	}
+
+	return
+}
+
+func (c *DPFMAPICaller) itemComponentCostingCreate(
+	mtx *sync.Mutex,
+	wg *sync.WaitGroup,
+	errFin chan error,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	subfuncSDC *sub_func_complementer.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) {
+	var err error = nil
+	defer func() {
+		errFin <- err
+	}()
+	defer wg.Done()
+	err = c.complementer.ComplementItemComponentCosting(input, subfuncSDC, log)
+	if err != nil {
+		mtx.Lock()
+		*errs = append(*errs, err)
+		mtx.Unlock()
+		return
+	}
+	output.SubfuncResult = getBoolPtr(true)
+	if subfuncSDC.SubfuncResult == nil || !*subfuncSDC.SubfuncResult {
+		output.SubfuncResult = getBoolPtr(false)
+		output.SubfuncError = subfuncSDC.SubfuncError
+		err = xerrors.New(output.SubfuncError)
+		return
+	}
+
+	return
+}
+
+func (c *DPFMAPICaller) itemOperationCreate(
+	mtx *sync.Mutex,
+	wg *sync.WaitGroup,
+	errFin chan error,
+	input *dpfm_api_input_reader.SDC,
+	output *dpfm_api_output_formatter.SDC,
+	subfuncSDC *sub_func_complementer.SDC,
+	errs *[]error,
+	log *logger.Logger,
+) {
+	var err error = nil
+	defer func() {
+		errFin <- err
+	}()
+	defer wg.Done()
+	err = c.complementer.ComplementItemOperation(input, subfuncSDC, log)
 	if err != nil {
 		mtx.Lock()
 		*errs = append(*errs, err)
